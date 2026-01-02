@@ -62,6 +62,8 @@ func main() {
 
 	/*
 		指针和地址
+		&：返回变量存储地址
+		*：这个变量是指针变量
 	*/
 	fmt.Println("=====指针和地址=====")
 	var v1 = 4
@@ -74,6 +76,9 @@ func main() {
 
 	/*
 		函数
+		func function_name([parameter list]) [return_types] {
+		    body
+		}
 	*/
 	fmt.Println("=====函数=====")
 	fmt.Println(f1(1, 2))
