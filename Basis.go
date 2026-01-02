@@ -60,4 +60,34 @@ func main() {
 	)
 	fmt.Println(const1, const2, const3)
 
+	/*
+		指针和地址
+	*/
+	fmt.Println("=====指针和地址=====")
+	var v1 = 4
+	var ptr *int
+	ptr = &v1
+	fmt.Println(*ptr) // 4
+	fmt.Println(ptr)  // 0xc00008c058
+	v1 = 10
+	fmt.Println(*ptr) // 10
+
+	/*
+		函数
+	*/
+	fmt.Println("=====函数=====")
+	fmt.Println(f1(1, 2))
+	var function_s1 = "s1"
+	var function_s2 = "s2"
+	function_s1, function_s2 = f2(function_s1, function_s2)
+	fmt.Println(function_s1, function_s2)
+}
+
+func f1(num1, num2 int) int {
+	return num1 + num2
+}
+
+// 多返回值
+func f2(s1, s2 string) (string, string) {
+	return s2, s1
 }
