@@ -73,132 +73,170 @@
 
 ## 基本数据类型
 
-+ 整型
+### 整型
 
-  + ```
-    uint8：0-255（2^8-1) == byte
-    uint16：0-65535
-    uint32
-    uint64
-    int8：-128-127
-    int16
-    int32 == rune
-    int64
-    int 会在32位或64平台下分别取对应位数的长度
-    ```
++ ```
+  uint8：0-255（2^8-1) == byte
+  uint16：0-65535
+  uint32
+  uint64
+  int8：-128-127
+  int16
+  int32 == rune
+  int64
+  int 会在32位或64平台下分别取对应位数的长度
+  ```
 
-+ 浮点型
+### 浮点型
 
-  + ```
-    float32
-    float64
-    complex64：32位实数和虚数
-    complex128
-    ```
++ ```
+  float32
+  float64
+  complex64：32位实数和虚数
+  complex128
+  ```
+
++ ```go
+  fmt.Println("%v, %f, %.2f")	// 原样输出，保留小数点后六位，保留小数点后两位
+  
+  var v = 3.14e2	// 表示3.14 * 10^2
+  var v = 3.14e-2	// 表示3.14 * 10^(-2)
+  ```
+
++ 精度丢失解决：github.com/shopspring/decimal包
 
   + ```go
-    fmt.Println("%v, %f, %.2f")	// 原样输出，保留小数点后六位，保留小数点后两位
-    
-    var v = 3.14e2	// 表示3.14 * 10^2
-    var v = 3.14e-2	// 表示3.14 * 10^(-2)
+    num1 := 3.1
+    num2 := 4.2
+    d1 := decimal.newFromFloat(num1)
+    d2 := decimal.newFromFloat(num2)
+    d3 := d1.Add(d2)
+    d4 := d1.Sub(d2)	
+    // Mul、Div
     ```
 
-  + 精度丢失解决：github.com/shopspring/decimal包
+### 布尔型
 
++ `bool`
++ 默认值为false
++ 不允许整形强转为布尔型
++ 布尔型无法参与数值运算，也无法与其他类型进行转换
+
+### 字符串
+
++ `string`
+
++ 默认值为空
+
++ 转义符
+
+  + `\r`：回车符（返回行首）
+  + `\n`：换行符（跳到下一行的同列位置）
+  + `\t`：制表符
+  + `\'`：单引号
+  + `\"`：双引号
+  + `\\`：反斜杠
+
++ 多行字符串
+
+  + 用双引号只能定义单行字符串，多行要用反引号
+
+  + ```go
+    str := `line1
+    line2
+    line3`
+    ```
+
++ 常用操作
+
+  + 求长度：len(str)，一个汉字三个字节，一个英文字母一个字节。string底层是指针实现的，用unsave.SizeOf()会一直得到16
+  
+  + 拼接字符串：+或`str := fmt.Sprintf("%V %v", str1, str2)`
+  
+  + 分割字符换：字符串拆分为切片
+  
     + ```go
-      num1 := 3.1
-      num2 := 4.2
-      d1 := decimal.newFromFloat(num1)
-      d2 := decimal.newFromFloat(num2)
-      d3 := d1.Add(d2)
-      d4 := d1.Sub(d2)	
-      // Mul、Div
+      var str = "123-456-789"
+      arr := strings.Split(str, "-")
       ```
-
-+ 布尔型
-
-  + `bool`
-  + 默认值为false
-  + 不允许整形强转为布尔型
-  + 布尔型无法参与数值运算，也无法与其他类型进行转换
-
-+ 字符串
-
-  + `string`
   
-  + 默认值为空
-  
-  + 转义符
-  
-    + `\r`：回车符（返回行首）
-    + `\n`：换行符（跳到下一行的同列位置）
-    + `\t`：制表符
-    + `\'`：单引号
-    + `\"`：双引号
-    + `\\`：反斜杠
-  
-  + 多行字符串
-  
-    + 用双引号只能定义单行字符串，多行要用反引号
+  + 切片转换为字符串
   
     + ```go
-      str := `line1
-      line2
-      line3`
+      var str = "123-456-789"
+      arr := strings.Split(str, "-")
+      str2 := strings.Join(arr, "*")
       ```
   
-  + 常用操作
+  + 判断一个字符串是否包含另一个字符串
   
-    + 求长度：len(str)，一个汉字三个字节，一个英文字母一个字节
+    + ```go
+      str1 := "this is str"
+      str2 := "this"
+      flag := strings.Contains(str) 
+      ```
+  
+  + 前缀/后缀判断
+  
+    + ```go
+      str1 := "this is str"
+      str2 := "this"
+      flag1 := strings.HasPrefix(str1, str2)
+      flag2 := strings.HasSuffix(str1, str2)
+      ```
+  
+  + 找子字符串出现的位置，查不到返回-1，找到返回下标位置
+  
+    + ```go
+      str1 := "this is str"
+      str2 := "is"
+      num1 := strings.Index(str1, str2)
+      num2 := strings.LastIndex(str1, str2)
+      ```
+  
+  + 修改字符串
+  
+    + ```go
+      s1 := "big"
+      byteStr := []byte(s1)
+      byteStr[0] = 'p'
+      fmt.Println(string(byteStr))
+      
+      s2 := "你好"
+      runeStr := []rune(s2)
+      runeStr[0] = 'p'
+      fmt.Println(string(runeStr))
+      ```
+  
+    + 
+  
+
+### byte、rune（字符）
+
++ byte：uint8类型，代表ASCII码的一个字符
+
+  + ```go
+    var a = 'a'	// 单引号定义字符，用%v输出为int类型（ASCII码值），用%c输出原样
+    ```
+
++ rune：int32，代表一个UTF-8字符
+
+  + ```go
+    s := "你好golang"
+    for i := 0; i < len(s); i++ {
+        fmt.Printf("%v(%c)", s[i], s[i])	// 会出问题，因为汉字占三个字节
+    }
     
-    + 拼接字符串：+或`str := fmt.Sprintf("%V %v", str1, str2)`
-    
-    + 分割字符换：字符串拆分为切片
-    
-      + ```go
-        var str = "123-456-789"
-        arr := strings.Split(str, "-")
-        ```
-    
-    + 切片转换为字符串
-    
-      + ```go
-        var str = "123-456-789"
-        arr := strings.Split(str, "-")
-        str2 := strings.Join(arr, "*")
-        ```
-    
-    + 判断一个字符串是否包含另一个字符串
-    
-      + ```go
-        str1 := "this is str"
-        str2 := "this"
-        flag := strings.Contains(str) 
-        ```
-    
-    + 前缀/后缀判断
-    
-      + ```go
-        str1 := "this is str"
-        str2 := "this"
-        flag1 := strings.HasPrefix(str1, str2)
-        flag2 := strings.HasSuffix(str1, str2)
-        ```
-    
-    + 找子字符串出现的位置，查不到返回-1，找到返回下标位置
-    
-      + ```go
-        str1 := "this is str"
-        str2 := "is"
-        num1 := strings.Index(str1, str2)
-        num2 := strings.LastIndex(str1, str2)
-        ```
-    
-      + 
-    
-    
-    
-    
+    for _, v := range s {
+        fmt.Printf("%v(%c)", v, v)
+    }
+    ```
+
+  + 
+
+
+
+
 
 ## 复合数据类型
 
@@ -218,15 +256,53 @@ func main() {
 }
 ```
 
+
+
 ## 强转类型
 
-可能出现精度丢失
+可能出现精度丢失，建议低位转高位
 
 ```go
+// 整型间转换
 var a1 int8 = 8
 var a2 int16 = 10
-fmt.Printf(int(16)a1 + a2)
+fmt.Printf(int16(a1) + a2)
+
+// 浮点型间转换
+var b1 float32 = 8
+var b2 float64 = 10
+fmt.Printf(float64(b1) + b2)
+
+// 整型和浮点型转换
+var c1 float32 = 8
+var c2 int = 10
+fmt.Printf(c1 + float32(c2))
+
+// 其他类型转换成string
+var i int = 20
+var f float64 = 12.456
+var t bool = true
+var b byte = 'a'
+// 第一种，Sprintf
+str1 := fmt.Sprintf("%d", i)
+str2 := fmt.Sprintf("%f", f)
+str3 := fmt.Sprintf("%t", t)
+str4 := fmt.Sprintf("%c", b)
+// 第二种，strconv包
+str1 := strconv.FormatInt(int64(i), 10)	// int64的数，进制
+str2 := strconv.FormatFloat(float64(f), 10)	// 数值，格式化方式('f','b','e','E','g','G')，保留小数点个数-1表示不对小数点格式化，格式化类型（32或64）
+str3 := strconv.FormatBool(t)
+str4 := strconv.FormatUint(uint64(b), 10)
+
+// string转int
+str := "123456"
+num, _ := strconv.ParseInt(str, 10, 64)	// 值，进制，位数
+
+// string转float
+num2, _ := strconv.ParseFloat(str, 64) // 值， 位数
 ```
+
+
 
 ## 数字字面量语法
 
@@ -258,7 +334,7 @@ v3 := 0xac
 
 ```
 逻辑运算符
-&&：与
+&&：与，若前面为false，则不会执行后面的
 ||：或
 !：非
 
@@ -279,7 +355,29 @@ fmt.Println(ptr)	// 0xc00008c058
 v1 = 10
 fmt.Println(*ptr)	// 10
 
+算术运算符
++：加
+-：减
+*：乘
+/：除，如果运算的数都是整数，相除后会去掉小数部分 
+%：取余
+++和--：自增、自减，只能单独使用，而且只能放在后面
 
+关系运算符
+==
+!=
+>
+<
+>=
+<=
+
+赋值运算符
+=：直接赋值
++=：相加后赋值
+-=
+*=
+/=
+%=
 ```
 
 
