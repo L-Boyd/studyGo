@@ -7,6 +7,26 @@ import (
 
 // 一些go基础内容
 func main() {
+	// string相关内容
+	aboutString()
+
+	// 定义变量相关内容
+	defineVariable()
+
+	// 常量相关内容
+	aboutConst()
+
+	// 指针相关内容
+	aboutPointer()
+
+	// 函数相关内容
+	aboutFunc()
+}
+
+/*
+与string相关内容
+*/
+func aboutString() {
 	// 字符串可以用+连接
 	fmt.Println("lby" + "tech")
 
@@ -23,7 +43,12 @@ func main() {
 	var targetUrl = fmt.Sprintf(url, stockcode, endDate)
 	fmt.Println(targetUrl)
 	fmt.Printf("The endDate is %s\n", endDate)
+}
 
+/*
+与变量定义相关的内容
+*/
+func defineVariable() {
 	/*
 		声明变量的形式
 		var 变量名 变量类型
@@ -57,7 +82,12 @@ func main() {
 	var uninitV2 int
 	var uninitV3 string
 	fmt.Println(uninitV1, uninitV2, uninitV3)
+}
 
+/*
+常量相关内容
+*/
+func aboutConst() {
 	/*
 		常量用const标识
 	*/
@@ -71,7 +101,12 @@ func main() {
 		const3 = unsafe.Sizeof(const1)
 	)
 	fmt.Println(const1, const2, const3)
+}
 
+/*
+指针相关内容
+*/
+func aboutPointer() {
 	/*
 		指针和地址
 		&：返回变量存储地址
@@ -85,7 +120,12 @@ func main() {
 	fmt.Println(ptr)  // 0xc00008c058
 	v1 = 10
 	fmt.Println(*ptr) // 10
+}
 
+/*
+函数相关内容
+*/
+func aboutFunc() {
 	/*
 		函数
 		func function_name([parameter list]) [return_types] {
