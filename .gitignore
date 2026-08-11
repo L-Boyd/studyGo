@@ -1,1 +1,55 @@
-.idea
+# =====================
+# IDE / 编辑器
+# =====================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# =====================
+# Go
+# =====================
+# 编译产物
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+# Go 构建输出（Windows 用 nul，Linux 用 /dev/null，这里防误提交）
+nul
+# 依赖目录
+vendor/
+# Go workspace 文件（按需保留，这里默认忽略）
+go.work
+go.work.sum
+
+# =====================
+# 敏感配置文件
+# =====================
+# 包含 API Key 等敏感信息的配置文件，禁止提交
+**/config.json
+# 保留 example 模板
+!**/config.json.example
+
+# =====================
+# 日志与临时文件
+# =====================
+*.log
+logs/
+tmp/
+temp/
+
+# =====================
+# 操作系统生成文件
+# =====================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+# macOS
+.DS_Store
+# Linux
+*~
